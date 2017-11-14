@@ -25,32 +25,35 @@ public class HeapSort {
     }
 
     void siftDown(int[] numbers, int start, int end) {
-        int root = start;
+        int rootIndex = start;
 
-        while(leftChild(root) <= end) {
-            int child = leftChild(root);
-            int swap = root;
+        while(leftChild(rootIndex) <= end) {
+            int child = leftChild(rootIndex);
+            int swapIndex = rootIndex;
 
-            if(numbers[swap] < numbers[child]) {
-                swap = child;
+            if(numbers[swapIndex] < numbers[child]) {
+                swapIndex = child;
             }
 
-            int rightChild = child + 1;
-            if(rightChild <= end && numbers[swap] < numbers[rightChild]) {
-                swap = rightChild;
+            if(rightChild(rootIndex) <= end && numbers[swapIndex] < numbers[rightChild(rootIndex)]) {
+                swapIndex = rightChild(rootIndex);
             }
 
-            if(swap == root)  {
+            if(swapIndex == rootIndex)  {
                 return;
             } else {
-                swap(numbers, root, swap);
-                root = swap;
+                swap(numbers, rootIndex, swapIndex);
+                rootIndex = swapIndex;
             }
         }
     }
 
     private int leftChild(int root) {
         return 2 * root + 1;
+    }
+
+    private int rightChild(int root) {
+        return 2 * root + 2;
     }
 
     void swap(int[] numbers, int end, int start) {
