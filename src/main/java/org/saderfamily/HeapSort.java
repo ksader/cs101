@@ -9,10 +9,29 @@ public class HeapSort {
             System.out.println(i);
         }
 
+        unSortedInts =  new int[]{4, 10, 3, 5, 1};
+        new HeapSort().heapsortUp(unSortedInts);
+        for (int i : unSortedInts) {
+            System.out.println(i);
+        }
 
     }
 
-    void heapsort(int[] numbers) {
+    private int[] heapsortUp(int[] numbers) {
+        heapifyUp(numbers, numbers.length);
+
+        int end = numbers.length - 1;
+
+        while(end > 0) {
+            swap(numbers, end, 0);
+            end--;
+            siftDown(numbers, 0, end);
+        }
+
+        return numbers;
+    }
+
+    public int[] heapsort(int[] numbers) {
         heapify(numbers, numbers.length);
 
         int end = numbers.length - 1;
@@ -22,6 +41,8 @@ public class HeapSort {
             end--;
             siftDown(numbers, 0, end);
         }
+
+        return numbers;
     }
 
     void siftDown(int[] numbers, int start, int end) {
@@ -48,6 +69,35 @@ public class HeapSort {
         }
     }
 
+    /**
+     * Another way to build the heap
+     * @return
+     */
+    void siftUp(int[] numbers, int start, int end) {
+        int child = end;
+        while(child > start) {
+          int parent = parentOf(child);
+          if(numbers[parent] < numbers[child]) {
+              swap(numbers, parent, child);
+              child = parent;
+          } else {
+              return;
+          }
+        }
+    }
+
+    void heapifyUp(int[] numbers, int count) {
+        int end = 1;
+        while(end < count) {
+            siftUp(numbers, 0, end);
+            end = end + 1;
+        }
+    }
+
+    int parentOf(int child) {
+        return (int) Math.floor((child - 1 ) / 2);
+    }
+
     private int leftChild(int root) {
         return 2 * root + 1;
     }
@@ -64,7 +114,7 @@ public class HeapSort {
 
 
     void heapify(int[] numbers, int length) {
-        int start = length - 1;
+        int start = parentOf(length - 1);
 
         while(start >= 0) {
             siftDown(numbers, start, length - 1);
